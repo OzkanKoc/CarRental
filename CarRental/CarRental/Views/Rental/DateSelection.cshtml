@@ -1,0 +1,28 @@
+﻿@model CarRental.Models.Entity.Rental
+@{
+    ViewBag.Title = "DateSelection";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 text-center">Tarih Seçimi</h1>
+    <div>
+        <div class="row">
+            @using (Html.BeginForm("DateSelection", "Rental", FormMethod.Post))
+            {
+                <table class="table table-responsive">
+                    <tr>
+                        <td>@Html.LabelFor(r => r.RentalDate, "Kiralama Tarihi")</td>
+                        <td>@Html.TextBoxFor(r => r.RentalDate, new { @class = "form-control", type = "date", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(r => r.ReturnDate, "Teslim Tarihi")</td>
+                        <td>@Html.TextBoxFor(r => r.ReturnDate, new { @class = "form-control", type = "date", required = "required" })</td>
+                    </tr>
+                </table>
+                @Html.ActionLink("Geri", "CarSelection", null, new { @class = "btn btn-secondary" })
+                <button type="submit" class="btn btn-secondary float-right">Kiralama Oluştur</button>
+            }
+        </div>
+    </div>
+</div>
+

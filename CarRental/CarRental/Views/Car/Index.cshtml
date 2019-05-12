@@ -1,0 +1,63 @@
+﻿@using CarRental.Models.Entity
+@model List<Car>
+@{
+    ViewBag.Title = "Index";
+}
+<div class=" align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex flex-wrap p-3 justify-content-center">
+        <h1 class="h2">Araç Listesi</h1>
+        <div class="btn-toolbar mb-2 mb-md-0 position-absolute" style="right:30px;">
+            @Html.ActionLink("Yeni Araç Ekle", "Insert", null, new { @class = "btn btn-secondary btn-sm" })
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Plaka</th>
+                    <th>Trafiğe Çıkış Tarihi</th>
+                    <th>Araç Rengi</th>
+                    <th>Vites Türü</th>
+                    <th>Yakıt Türü</th>
+                    <th>Kasa Tipi</th>
+                    <th>Motor Hacmi</th>
+                    <th>Motor Gücü</th>
+                    <th>Koltuk Sayısı</th>
+                    <th>Yaş Limiti</th>
+                    <th>Günlük Ücret</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CarId</td>
+                        <td>@item.Model.Brand.Name</td>
+                        <td>@item.Model.Name</td>
+                        <td>@item.PlateNumber</td>
+                        <td>@item.PurchaseDate</td>
+                        <td>@item.Color</td>
+                        <td>@item.GearType</td>
+                        <td>@item.Fueltype</td>
+                        <td>@item.BodyType</td>
+                        <td>@item.EngineVolume</td>
+                        <td>@item.EnginePower</td>
+                        <td>@item.NumberOfSeats</td>
+                        <td>@item.MinAgeForRent</td>
+                        <td>@item.Price</td>
+                        <td>
+                            <a href="@Url.Action("Edit",new { id=item.CarId})"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Delete", new { id=item.CarId})"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

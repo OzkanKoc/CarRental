@@ -1,0 +1,142 @@
+﻿@using CarRental.Models.Entity
+@model Car
+@{
+    ViewBag.Title = "Edit";
+    var colorList = new List<string>()
+{
+". : : Seçiniz : : .",
+"Sarı" ,
+"Kırmızı" ,
+"Mavi",
+"Yeşil" ,
+"Beyaz" ,
+"Siyah" ,
+"Bordo" ,
+"Gri" ,
+"Füme"
+};
+
+}
+<div class="container-fluid">
+    <h1 class="h3 text-center">Araç Ekleme</h1>
+    <div class="row">
+        @using (Html.BeginForm("Edit", "Car", FormMethod.Post, new { @class = "d-flex w-100" }))
+        {
+            @Html.HiddenFor(c=>c.CarId)
+            <div class="col-12 col-lg-6">
+                <table class="table">
+                    <tr>
+                        <td>@Html.LabelFor(r => r.Model.BrandId, "Marka")</td>
+                        <td>@Html.DropDownListFor(r => r.Model.BrandId, (SelectList)ViewBag.BrandList, new { @class = "form-control dropdown-brand pt-0 pb-0", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.ModelId, "Model")</td>
+                        <td>@Html.DropDownListFor(c => c.ModelId, (SelectList)ViewBag.ModelList, new { @class = "form-control dropdown-model pt-0 pb-0", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.PlateNumber, "Plaka")</td>
+                        <td>@Html.TextBoxFor(c => c.PlateNumber, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Color, "Araç Rengi")</td>
+                        <td>
+                            <select class="form-control pt-0 pb-0" name="Color" required>
+                                @foreach (var item in colorList)
+                                {
+                                    if (item == Model.Color)
+                                    {
+                                        <option value="@item" selected>
+                                            @item
+                                        </option>
+                                    }
+                                    else if (item == ". : : Seçiniz : : .")
+                                    {
+                                        <option value="@item" disabled>
+                                            @item
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item">
+                                            @item
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.PurchaseDate, "Trafiğe Çıkış Tarihi")</td>
+                        <td>@Html.TextBoxFor(c => c.PurchaseDate, new { @class = "form-control", type = "date", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.MinAgeForRent, "Yaş Limiti")</td>
+                        <td>@Html.TextBoxFor(c => c.MinAgeForRent, new { @class = "form-control", type = "number", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.NumberOfSeats, "Koltuk Sayısı")</td>
+                        <td>@Html.TextBoxFor(c => c.NumberOfSeats, new { @class = "form-control", type = "number", required = "required" })</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-12 col-lg-6">
+                <table class="table">
+                    <tr>
+                        <td>@Html.LabelFor(c => c.EnginePower, "Motor Gücü")</td>
+                        <td>@Html.TextBoxFor(c => c.EnginePower, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.EngineVolume, "Motor Hacmi")</td>
+                        <td>@Html.TextBoxFor(c => c.EngineVolume, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.GearType, "Vites Türü")</td>
+                        <td>@Html.DropDownListFor(c => c.GearType, new SelectList(ViewBag.GearTypeList), new { @class = "form-control dropdown pt-0 pb-0", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Fueltype, "Yakıt Türü")</td>
+                        <td>@Html.DropDownListFor(c => c.Fueltype, new SelectList(ViewBag.FuelTypeList), new { @class = "form-control dropdown pt-0 pb-0", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.BodyType, "Kasa Tipi")</td>
+                        <td>@Html.DropDownListFor(c => c.BodyType, new SelectList(ViewBag.BodyTypeList), new { @class = "form-control dropdown pt-0 pb-0", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Price, "Günlük Ücret")</td>
+                        <td>@Html.TextBoxFor(c => c.Price, new { @class = "form-control", type = "decimal", required = "required" })</td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn btn-secondary float-right w-25"><strong>Kaydet</strong></button>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+
+    @{
+            var modelOfBrands = (Dictionary<Brand, List<Model>>) ViewBag.ModelOfBrands;
+        }
+
+    var models = {
+        @foreach (var carModelPair in modelOfBrands)
+        {
+            @:'@carModelPair.Key.BrandId': [
+            foreach (var carModel in carModelPair.Value)
+            {
+                @:{ Id: @carModel.ModelId, Name: '@carModel.Name' },
+            }
+            @:],
+        }
+    }
+
+    $('select.dropdown-brand').change(function () {
+        var brandId = $(this).val();
+        var modelsOfBrand = models[brandId];
+        $('select.dropdown-model').empty();
+        for (var i = 0; i < modelsOfBrand.length; i++) {
+            $('select.dropdown-model').append($('<option>').val(modelsOfBrand[i].Id).append(modelsOfBrand[i].Name));
+        }
+    })
+</script>

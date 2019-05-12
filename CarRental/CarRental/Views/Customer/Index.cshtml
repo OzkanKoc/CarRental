@@ -1,0 +1,53 @@
+﻿@using CarRental.Models.Entity
+@model List<Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class=" align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex flex-wrap p-3 justify-content-center">
+        <h1 class="h2">Müşteri Listesi</h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>İsim</th>
+                    <th>Soyisim</th>
+                    <th>Doğum Tarihi</th>
+                    <th>Kimlik Numarası</th>
+                    <th>Telefon Numarası</th>
+                    <th>E-posta</th>
+                    <th>Adres</th>
+                    <th>Ehliyet Tipi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CustomerId</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.DateOfBirth</td>
+                        <td>@item.IdentityNumber</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Email</td>
+                        <td>@item.Address</td>
+                        <td>@item.DrivingLicense.LicenseType</td>
+                        <td>
+                            <a href="@Url.Action("Edit",new { id=item.CustomerId})"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Delete", new { id=item.CustomerId})"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

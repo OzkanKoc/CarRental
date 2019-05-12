@@ -1,0 +1,57 @@
+﻿@model CarRental.Models.Entity.Customer
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 text-center">Müşteri Düzenleme </h1>
+    <div class="row">
+        @using (Html.BeginForm("Edit", "Customer", FormMethod.Post, new { @class = "d-flex w-100" }))
+        {
+            @Html.HiddenFor(c => c.CustomerId)
+            @Html.HiddenFor(c => c.DrivingLicense.DrivingLicenseId)
+            <div class="col-12 col-lg-6">
+                <table class="table">
+                    <tr>
+                        <td>@Html.LabelFor(c => c.FirstName, "İsim")</td>
+                        <td>@Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.LastName, "Soyisim")</td>
+                        <td>@Html.TextBoxFor(c => c.LastName, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.DateOfBirth, "Doğum Tarihi")</td>
+                        <td>@Html.TextBoxFor(c => c.DateOfBirth, new { @class = "form-control", type = "date", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.IdentityNumber, "Kimlik Numarası")</td>
+                        <td>@Html.TextBoxFor(c => c.IdentityNumber, new { @class = "form-control", type = "number", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.PhoneNumber, "Telefon Numarası")</td>
+                        <td>@Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control telephon", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Email, "E-Posta Adresi")</td>
+                        <td>@Html.TextBoxFor(c => c.Email, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Address, "Adres")</td>
+                        <td>@Html.TextAreaFor(c => c.Address, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td> @Html.LabelFor(c => c.DrivingLicense.LicenseType,"Ehliyet Türü")</td>
+                        <td>
+                            @Html.EnumDropDownListFor(c =>
+                        c.DrivingLicense.LicenseType, new { @class = "form-control pb-0 pt-0", required = "required" })
+                    </td>
+                </tr>
+            </table>
+            @Html.ActionLink("İptal", "Index", null, new { @class = "btn btn-secondary" })
+            <button type="submit" class="btn btn-secondary">Kaydet</button>
+        </div>
+    }
+    </div>
+</div>
+

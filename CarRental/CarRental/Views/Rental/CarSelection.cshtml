@@ -1,0 +1,130 @@
+﻿@using CarRental.Models.Entity;
+@model CarRental.Models.Entity.RentalWizardModel
+
+@{
+    ViewBag.Title = "CarSelection";
+}
+
+<script src="~/Assets/js/myScripts.js"></script>
+
+<div class="container-fluid">
+    <h1 class="h3 text-center">Araç Seçimi</h1>
+    <div>
+        <div class="row">
+            <table class="table table-responsive">
+                <tr>
+                    <td>@Html.LabelFor(r => r.Brand.BrandId, "Marka")</td>
+                    <td style="width:150px;">@Html.DropDownListFor(r => r.Brand.BrandId, new SelectList(ViewBag.ModelOfBrands.Keys, "BrandId", "Name"), new { @class = "form-control dropdown-brand pt-0 pb-0", required = "required" })</td>
+
+                    <td>@Html.LabelFor(c => c.Model.ModelId, "Model")</td>
+                    <td style="width:150px;">
+                        @Html.DropDownListFor(c => c.Model.ModelId, new SelectList(""), new { @class = "form-control dropdown-model pt-0 pb-0", required = "required" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("CarSelection", "Rental", FormMethod.Post))
+            {
+                <table id="car_display_table" class="table table-responsive col-md-11">
+                    <thead>
+                        <tr>
+                            <th>Renk</th>
+                            <th>Plaka</th>
+                            <th>Günlük Ücret</th>
+                            <th>Trafiğe Çıkış Tarihi</th>
+                            <th>Motor Hacmi</th>
+                            <th>Motor Gücü</th>
+                            <th>Vites Türü</th>
+                            <th>Kasa Tipi</th>
+                            <th>Yakıt Türü</th>
+                            <th>Koltuk Sayısı</th>
+                            <th>Yaş Limiti</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                @Html.ActionLink("Geri", "AddLicense", null, new { @class = "btn btn-secondary w-25" })
+                <button type="submit" class="btn btn-secondary float-right w-25">İleri</button>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+
+    @{
+            var modelOfBrands = (Dictionary<Brand, List<Model>>) ViewBag.ModelOfBrands;
+        }
+
+    var models = {
+        @foreach (var carModelPair in modelOfBrands)
+        {
+            @:'@carModelPair.Key.BrandId': [
+            foreach (var carModel in carModelPair.Value)
+            {
+                @:{ Id: @carModel.ModelId, Name: '@carModel.Name' },
+            }
+            @:],
+        }
+    }
+
+    $('select.dropdown-brand').change(function () {
+        var brandId = $(this).val();
+        var modelsOfBrand = models[brandId];
+        $('select.dropdown-model').empty();
+        for (var i = 0; i < modelsOfBrand.length; i++) {
+            $('select.dropdown-model').append($('<option>').val(modelsOfBrand[i].Id).append(modelsOfBrand[i].Name));
+        }
+    })
+
+    $('select.dropdown-model').change(function () {
+        var modelId = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCars", "Rental")',
+            data: { modelId: modelId },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: DisplayReceivedCars
+        })
+    })
+
+    function DisplayReceivedCars(data) {
+        debugger;
+        var carList = [];
+        var carAvailableList = [];
+
+        $.each(data, function (index, item) {
+            if (index == "Cars") {
+                carList = item;
+            } else {
+                carAvailableList = item;
+            }
+        })
+        $('#car_display_table > tbody').empty();
+        var rowId = 0;
+        $.each(carAvailableList, function (index, isAvailable) {
+            if (isAvailable == 'true') {
+                var tr = $('<tr>');
+                tr.attr('id', rowId.toString());
+                rowId++;
+                $.each(carList[index], function (count, item) {
+                    if (count!='CarId' && count!= 'ModelId') {
+                        var td = $('<td>');
+                        td.append(item);
+                        tr.append(td);
+                    }
+                })
+                var tdForRadioButton = $('<td>');
+                var radioButton = $('@Html.RadioButtonFor(r => r.Car.CarId, "",new {required = "required" })');
+                radioButton.attr('id', 'CarId');
+                radioButton.attr('value', carList[index].CarId);
+                tdForRadioButton.append(radioButton);
+                tr.append(tdForRadioButton);
+                $('#car_display_table > tbody').append(tr);
+            }
+        })
+    }
+</script>

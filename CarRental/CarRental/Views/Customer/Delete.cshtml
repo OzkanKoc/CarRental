@@ -1,0 +1,16 @@
+﻿@model CarRental.Models.Entity.Customer
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="container">
+    <div class="alert alert-danger">
+        <p><strong>@Model.FirstName @Model.LastName</strong> isimli müşteriyi silmek istediğinize emin misiniz?</p>
+    </div>
+    @using (Html.BeginForm("Delete", "Customer", FormMethod.Post))
+    {
+        @Html.HiddenFor(c => c.CustomerId)
+        @Html.ActionLink("İptal", "Index", null, new { @class = "btn btn-info" })
+        <button type="submit" class="btn btn-warning">Sil</button>
+    }
+</div>

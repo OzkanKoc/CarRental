@@ -1,0 +1,33 @@
+﻿@model CarRental.Models.Entity.DrivingLicense
+@{
+    ViewBag.Title = "AddLicense";
+}
+
+<div class="container-fluid">
+    <h1 class="h-3 text-center p-3">Ehliyet Ekleme</h1>
+    @using (Html.BeginForm("AddLicense", "Rental", FormMethod.Post, new { @class = "w-100" }))
+    {
+        <div class="row justify-content-center">
+            <table class="table w-50">
+                <tr>
+                    <td>@Html.LabelFor(d => d.LicenseNumber, "Ehliyet Numarası")</td>
+                    <td>@Html.TextBoxFor(d => d.LicenseNumber, new { @class = "form-control", type = "number", required = "required" })</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(d => d.DateOfIssue, "Veriliş Tarihi")</td>
+                    <td>@Html.TextBoxFor(d => d.DateOfIssue, new { @class = "form-control", type = "date", required = "required" })</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(d => d.LicenseType, "Ehliyet Türü")</td>
+                    <td>@Html.DropDownListFor(d => d.LicenseType, new SelectList(ViewBag.LicenseTypeList), new { @class = "dropdown pt-0 pb-0 form-control", required = "required" })</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row d-flex justify-content-around">
+            @Html.ActionLink("Geri", "Index", null, new { @class = "btn btn-secondary" })
+            <button type="submit" class="btn btn-secondary">İleri</button>
+        </div>
+
+    }
+</div>
+

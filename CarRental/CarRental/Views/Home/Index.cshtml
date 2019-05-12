@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+}
+<div class="align-items-center d-inline justify-content-center m-auto">
+    @if (TempData.ContainsKey("Message"))
+    {
+        <div class="alert alert-success position-absolute w-100" , style="z-index:3;">
+            <p>@TempData["Message"]</p>
+        </div>
+        TempData.Remove("Message");
+    }
+    <img src="~/Assets/images/bg/bg-modRental.png" class="position-absolute" style="transform:translateX(40%); " />
+    <img src="~/Assets/images/bg/bg.jpg" style="background-repeat:no-repeat; background-size:cover; width:100%;" />
+</div>
+

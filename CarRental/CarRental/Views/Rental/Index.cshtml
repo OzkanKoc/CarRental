@@ -1,0 +1,51 @@
+﻿@model CarRental.Models.Entity.Customer
+@{
+    ViewBag.Title = "NewRental";
+}
+
+<div class="container-fluid">
+    <h1 class=" h-3 text-center">Yeni Kiralama</h1>
+    <div class="row">
+        @using (Html.BeginForm("Index", "Rental", FormMethod.Post, new { @class = "d-flex w-100" }))
+        {
+            <div class="col-12 col-lg-6">
+                <table class="table">
+                    <tr>
+                        <td>@Html.LabelFor(c => c.FirstName, "Ad")</td>
+                        <td>@Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", @name="firstName" , required="required"})</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.LastName, "Soyad")</td>
+                        <td>@Html.TextBoxFor(c => c.LastName, new { @class = "form-control" })</td>
+
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.IdentityNumber, "Kimlik Numarası")</td>
+                        <td>@Html.TextBoxFor(c => c.IdentityNumber, new { @class = "form-control", type = "number" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.DateOfBirth, "Doğum Tarihi")</td>
+                        <td>@Html.TextBoxFor(c => c.DateOfBirth, new { @class = "form-control", type = "date" })</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-12 col-lg-6">
+                <table class="table">
+                    <tr>
+                        <td>@Html.LabelFor(c => c.PhoneNumber, "Telefon Numarası")</td>
+                        <td>@Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control telephon" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Email, "E-Posta Adresi")</td>
+                        <td>@Html.TextBoxFor(c => c.Email, new { @class = "form-control email" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(c => c.Address, "Adres")</td>
+                        <td>@Html.TextAreaFor(c => c.Address, new { @class = "form-control" })</td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn btn-secondary float-right w-25"><strong>İleri</strong></button>
+            </div>
+        }
+    </div>
+</div>

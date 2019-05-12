@@ -1,0 +1,17 @@
+﻿@model CarRental.Models.Entity.Car
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="container">
+    <div class="alert alert-danger">
+        <p><strong>@Model.PlateNumber</strong> plakalı aracı silmek istediğinize emin misiniz?</p>
+    </div>
+    @using (Html.BeginForm("Delete", "Car", FormMethod.Post))
+    {
+        @Html.HiddenFor(c => c.CarId)
+        @Html.ActionLink("İptal", "Index", null, new { @class = "btn btn-info" })
+        <button type="submit" class="btn btn-warning">Sil</button>
+    }
+</div>
+

@@ -1,0 +1,25 @@
+﻿@model List<CarRental.Models.Entity.Rental>
+
+<div class="dropdown-menu bell-notify-box notify-box">
+    <span class="notify-title">
+        Bugün Teslim Edilecek Araçlar
+        <a href="#">view all</a>
+    </span>
+
+    <div class="nofity-list">
+        @foreach (var item in Model)
+        {
+            <a class="notify-item">
+                <div class="notify-thumb">
+                    <i class="ti-comments-smiley btn-info"></i>
+                </div>
+                <div class="notify-text">
+                    <p>@item.Customer.FirstName @item.Customer.LastName</p>
+                    <p>@item.Customer.PhoneNumber</p>
+                    <p>@item.Car.PlateNumber Plakalı</p>
+                    <p>@item.Car.Model.Brand.Name - @item.Car.Model.Name</p>
+                </div>
+            </a>
+        }
+    </div>
+</div>
